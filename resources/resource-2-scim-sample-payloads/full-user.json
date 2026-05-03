@@ -1,0 +1,85 @@
+{
+    "schemas": [
+        "urn:ietf:params:scim:api:messages:2.0:BulkRequest"
+    ],
+    "Operations": [
+        {
+            "method": "POST",
+            "bulkId": "1aabdd3d-f350-4ef6-ab45-fb69029a7663",
+            "path": "/Users",
+            "data": {
+                "schemas": [
+                    "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User",
+                    "urn:ietf:params:scim:schemas:extension:contoso:1.0:User"
+                ],
+                "externalId": "109",
+                "userName": "joe.bloggs",
+                "displayName": "Joe Bloggs",
+                "active": false,
+                "name": {
+                    "familyName": "Bloggs",
+                    "givenName": "Joe"
+                },
+                "userType": "Demo",
+                "addresses": [
+                    {
+                        "country": "UK",
+                        "formatted": "United Kingdom",
+                        "locality": "",
+                        "postalCode": "",
+                        "primary": true,
+                        "region": "",
+                        "streetAddress": "",
+                        "type": "work"
+                    }
+                ],
+                "emails": [
+                    {
+                        "primary": true,
+                        "type": "work",
+                        "value": "joe.bloggs@M365x91871532.onmicrosoft.com"
+                    }
+                ],
+                "nickName": "joe.bloggs",
+                "phoneNumbers": [
+                    {
+                        "type": "mobile",
+                        "value": "+44 00000000"
+                    }
+                ],
+                "preferredLanguage": "en-GB",
+                "timezone": "London",
+                "title": "Consultant",
+                "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User": {
+                    "costCenter": "ELUK",
+                    "department": "ELUK 2026",
+                    "division": "Experts Live United Kingdom",
+                    "organization": "Experts Live",
+                    "manager": {
+                        "value": "100"
+                    }
+                },
+                "urn:ietf:params:scim:schemas:extension:contoso:1.0:User": {
+                    "HireDate": "2026-06-14T08:00:00+02:00",
+                    "LeaveDate": null,
+                    "countryCode": "UK"
+                }
+            }
+        },
+        {
+            "method": "POST",
+            "bulkId": "3d39e5d4-869a-4fc8-b251-036851f49ca5",
+            "path": "/Users",
+            "data": {
+                "active": false,
+                "displayName": "Flow Streaming",
+                "userName": "flow.streaming",
+                "externalId": "100",
+                "schemas": [
+                    "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"
+                ]
+            }
+        }
+    ],
+    "failOnErrors": null
+}

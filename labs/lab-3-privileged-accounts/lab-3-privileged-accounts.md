@@ -1,0 +1,59 @@
+# Lab 3 - Securing Privileged Accounts
+
+## Lab 3.1 - Enable the passkey authentication method
+
+Now the onboarding has finished let's make sure that once the end user is starting to use their TAP they can onboard a passkey to their account. Within Entra ID go to Authentication Methods with an admin account which has the authentication policy administrator role. Here make sure that:
+
+- There is passkey profile configured for all users whereby device-bound passkeys are enabled
+- There is passkey profile configured for all users whereby synced passkeys are enabled, this can be targetted against a dynamic group containing all regular user accounts, or a test group.
+
+Microsoft Learn source: [Entra ID - Passkey Profiles](https://learn.microsoft.com/en-us/entra/identity/authentication/how-to-authentication-passkey-profiles)
+
+&nbsp;
+
+## Lab 3.2 - Sign-in with your privileged account and register a passkey
+
+Now you've received a Temporary Access Pass in your regular email, sign-in with your newly generated privileged account and register a passkey for your privileged account to make sure this account becomes phishing resistant.
+
+&nbsp;
+
+## Lab 3.3 - Create role-assignable group and assign the privileged account as a member of this group
+
+Now the privileged account has been created and you've secured your privileged account with a passkey to make sure it's protected against phishing attacks, let's make sure that the account becomes really privileged. For that create a security group whith the following properties and settings:
+
+- The group has the type security and isn't dynamic.
+- The group name is 'SEC-ELUK26-Role-IAM-Engineers'.
+- The group is enabled for Entra role assignments.
+- The group has at least the 'User Administrator Role' assigned as eligible.
+- The privileged account created in the previous lab is a member of the group.
+
+Once done, verify if you can activate the 'User Administrator Role' with the privileged account, created in the previous lab, in Privileged Identity Management to make sure the account is also being marked as a 'Privileged' account on the backend (as admin accounts without a role assignment aren't marked as 'privileged').
+
+&nbsp;
+
+## Lab 3.4 - Link privileged account to identity in Microsoft Defender XDR
+
+Create a manual link between the privileged user and the regular (work) account of the identity:
+
+1. Navigate to [Identity inventory](https://security.microsoft.com/identity-inventory) in Microsoft Defender XDR.
+2. Select or search for the created privileged account.
+3. Click on the tab "Observed in organization" and link the privileged account to the regular (workforce) account of the identity.
+
+After the link has been created, navigate to the identity page of the work account.
+
+**NOTE:** There is a sligth chance on delay between the privileged account creation and the backend sync within the Microsoft Defender XDR portal for the account to become visible and being able to link it to the regular user account. If you can't find one or both of the accounts please give the backend some time to sync and return to this lab exercise later on the day.
+
+Microsoft Learn source: [MDI - Link or unlink account to identity](https://learn.microsoft.com/en-us/defender-for-identity/link-unlink-account-to-identity#how-to-manually-link-or-unlink-accounts-to-an-identity).
+
+&nbsp;
+
+## Lab 3.5 - Assign privileged account to Restricted Management Administrative Unit (RMAU)
+
+1. Create an [Administrative Unit with dynamic membership](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/admin-units-members-dynamic?tabs=admin-center#add-rules-for-dynamic-membership-groups) named “Privileged Users” and enable “[Restricted management administrative unit](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/admin-units-restricted-management)” during the creation process.
+
+2. Configure a rule depending on your naming convention for privileged users or other unique attributes (e.g., domain suffix for cloud-only accounts).
+
+    > 💡 **Optional**  
+    > Evaluate the option to configure [dynamic membership with the memberOf attribute](https://learn.microsoft.com/en-us/entra/identity/users/groups-dynamic-rule-member-of). This allows you to assign members of role-assignable groups or other privileged groups to RMAU automatically. Consider that this feature is in preview and take note of the warning about limitations from the [Microsoft Learn](https://learn.microsoft.com/en-us/entra/identity/users/groups-dynamic-rule-member-of) documentation.
+
+3. Assign a role [on the scope of the Administrative Unit](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/manage-roles-portal?tabs=admin-center#assign-roles-with-administrative-unit-scope-1) to regain access for managing privileged users. Choose a dedicated role-assignable group which will be used for Control Plane Management.

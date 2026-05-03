@@ -1,0 +1,56 @@
+{
+    "schemas": [
+        "urn:ietf:params:scim:api:messages:2.0:BulkRequest"
+    ],
+    "Operations": [
+        {
+            "method": "POST",
+            "bulkId": "8a8e0275-df06-40be-8749-dc07ba6001d0",
+            "path": "/Users",
+            "data": {
+                "schemas": [
+                    "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User",
+                    "urn:ietf:params:scim:schemas:extension:contoso:1.0:User"
+                ],
+                "externalId": "a-109",
+                "userName": "joe.bloggs.admin",
+                "displayName": "Joe Bloggs (Admin)",
+                "active": true,
+                "name": {
+                    "familyName": "Bloggs (Admin)",
+                    "givenName": "Joe"
+                },
+                "userType": "Privileged",
+                "emails": [
+                    {
+                        "primary": true,
+                        "type": "work",
+                        "value": "joe.bloggs+admin@M365x91871532.onmicrosoft.com"
+                    }
+                ],
+                "nickName": "joe.bloggs.admin",
+                "phoneNumbers": [
+                    {
+                        "type": "mobile",
+                        "value": "+44 00000000"
+                    }
+                ],
+                "preferredLanguage": "en-GB",
+                "timezone": "London",
+                "title": "Privileged Admin",
+                "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User": {
+                    "costCenter": "ELUK",
+                    "department": "ELUK 2026",
+                    "division": "Experts Live United Kingdom",
+                    "organization": "Experts Live"
+                },
+                "urn:ietf:params:scim:schemas:extension:contoso:1.0:User": {
+                    "HireDate": "2026-06-14T08:00:00+02:00",
+                    "LeaveDate": null,
+                    "countryCode": "UK"
+                }
+            }
+        }
+    ],
+    "failOnErrors": null
+}

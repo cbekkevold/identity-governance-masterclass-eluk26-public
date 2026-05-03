@@ -1,0 +1,19 @@
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:BulkRequest"],
+    "Operations": [
+        {
+            "method": "POST",
+            "bulkId": "79b02cb9-7768-4d37-8dfe-95a2c05cbdd0",
+            "path": "/Users",
+            "data": {
+                "schemas": [
+                    "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"],
+                "externalId": "109",                
+                "userName": "joe.bloggs",
+                "displayName": "Joe Bloggs",
+                "active": false                
+            }
+        }        
+    ],
+    "failOnErrors": null
+}
