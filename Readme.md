@@ -2,7 +2,7 @@
 
 This repository contains labs and resources for attendees at Identity Governance Master Class, Experts Live UK 2026.
 
-![Identity Governance Workshop - Experts Live UK 2026](identity-governance-workshop-eluk26-elven-bekkevold.jpg)
+![Identity Governance Workshop - Experts Live UK 2026](/identity-governance-workshop-eluk26-elven-bekkevold.jpeg =300x)
 
 ## Agenda
 
