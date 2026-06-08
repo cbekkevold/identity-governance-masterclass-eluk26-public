@@ -1,6 +1,6 @@
 # Lab Instructions - Identity Governance Master Class
 
-Read these instructions to prepare for the Identity Master Class at Experts Live UK 2026.
+Read these instructions to prepare for the Identity Governance Workshop Master Class at Experts Live UK 2026.
 
 ## Bring Your Own Tenant
 
@@ -75,6 +75,8 @@ Depending on what kind of Tenant you have been able to set up yourself from abov
 - Entra ID P2 Trial
   - 100 licenses for 30 days.
   - Activate trial in the Entra Admin Portal: <https://entra.microsoft.com/#view/Microsoft_AAD_IAM/TryBuyProductBlade/>
+- Agent 365 (*)
+  - None of the labs will require you to buy an Agent 365 license, but we will show some functionality for Agent Identity Governance and Security in demos. If you want to try this yourself, at current time it will seem that you need to buy access to Agent 365 for a minimum of 1 user for a month (*).
 
 ## What Privilege do I need?
 
@@ -85,6 +87,8 @@ We strongly recommend using a member account in the test or lab tenant for testi
 ## Do I need any installed software?
 
 For a few lab scenarios, you will need to execute and install PowerShell, Azure CLI etc. Therefore, ensure that you have the latest version of PowerShell Core installed. Make sure these prerequisites are met. No local administrative privileges are required.
+
+We will also use GitHub and a dedicated repository for sharing all the lab exercises and resources, you don't have to have GitHub installed to access it, but it is helpful to have a GitHub account to fork and clone the repository to your own computer. We also recommend using Visual Studio Code for working with the exercises.
 
 ## Do I need an Azure Subscription?
 
@@ -97,8 +101,8 @@ If you can bring your own Azure Subscription, we recommend one of the following 
 
 You will probably find you in a situation where you have a separate demo tenant (CDX, M365 Developer, etc), and the Azure Subscription connected to your Organization tenant. While you can reassociate Azure Subscriptions to other tenants, we recommend deploying Azure Lighthouse delegation instead for giving access to Azure between tenants.
 
-See [resources and Bicep deployment file for Azure Lighthouse](../resources/resource-1-azure-lighthouse/) for more details.
+See [resources and Bicep deployment file for Azure Lighthouse](../resources/resource-1-azure-lighthouse/) for more details. (link will be open on the day of the Masterclass)
 
-## What if I am not able to bring your own tenant to the Identity Master Class?
+## What if I am not able to bring your own tenant to the Identity Governance Master Class?
 
 You will be able to bring the labs home and do them at a later time. We will strongly encourage attendees to work together with your side-person on the day, so that you can collaborate on the labs if you don't have access yourself.
