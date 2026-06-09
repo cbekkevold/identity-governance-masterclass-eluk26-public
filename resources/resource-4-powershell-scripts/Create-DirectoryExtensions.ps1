@@ -7,8 +7,8 @@ Connect-MgGraph -Scopes "Application.ReadWrite.All" -TenantId $tenantId
 # Specify the application object ID where extensions will be created
 $applicationObjectId = "<your-objectID-from-previous-step-here>"
 
-# Define the extension property names to create
-$extensions = @("persona", "personaSubType")
+# Define the extension property names to create (separate multiple extensions with commas)
+$extensions = @("persona")
 
 # Loop through each extension name
 foreach ($extension in $extensions) {
