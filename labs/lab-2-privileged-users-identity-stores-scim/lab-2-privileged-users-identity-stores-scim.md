@@ -162,50 +162,36 @@ In this section, you set up Administrative Units (AUs) in Entra ID for persona-b
 
 ## Lab 2.6 - Use Administrative Units as Scope for Lifecycle Workflows (Leaver/Inactive Users Example)
 
-In this section, you create a Leaver workflow for deprovisioning and scope it to the AdminUser persona Administrative Unit so only privileged users are targeted for the inactive users flow.
+In this section, you create or reuse a workflow (joiner, mover or leaver) and set administration scope to one of the Administrative Units you've created. Give to different users (one inside and one outside your administrative unit) so only privileged users are targeted for the inactive users flow.
 
 ### Tasks:
 
 1. **Open Lifecycle Workflows in Entra ID**
    - In the left menu, go to **Identity Governance** → **Lifecycle workflows**.
 
-2. **Create a Leaver workflow from template**
+2. **Create or reuse a Leaver workflow from template**
    - Select **Workflows**.
    - Click **+ Create workflow**.
-   - Choose the **Leaver** template named *Offboard inactive users*.
+   - E.g. Choose the **Leaver** template named *Offboard inactive users*.
    - Click **Select**.
 
 3. **Configure basic workflow details**
-   - Enter a workflow name (for example `Leaver - Admin Persona AU - Inactive Users`).
+   - Enter a workflow name (for example `Leaver - Inactive Users`).
    - Add description (for example describing deprovisioning of privileged admin accounts).
    - Click **Next**.
 
-4. **Scope the workflow to the Admin Administrative Unit**
+4. **Set administration scope to an administrative unit**
    - In the workflow setup, open the **Administrations scopes** by clicking **No selected scopes**.
-   - Choose the correct AU. Click **Select**.
-   - Select the AU you created in Lab 2.5 for the `AdminUser` persona (for example `Privileged Users`).
+   - Select one of the AUs you created in Lab 2.5. Click **Select**.
    - Confirm and continue.
 
 5. **Configure trigger and workflow tasks**
-   - Let the trigger type be **Sign-in activity**
-   - Choose **Days of inactivity** to feed your needs.
-   - 
+   - Complete the setup of the workflow based on your own wishes. 
 
-
-   - Keep Leaver tasks enabled appropriate for privileged users (for example: **Disable account**, **Remove user from all groups**, or **Delete user**).
-   - Verify task order and settings.
-   - Click **Review + create** and then **Create**.
-
-6. **Enable and test the workflow**
-   - Open the newly created workflow.
-   - Set workflow status to **On**.
-   - Run **Run on demand** for one test Admin user who is a member of the Admin AU.
-   - Verify the run is successful in **Runs history** and that deprovisioning tasks complete as expected.
-
-7. **Validate persona-scoped deprovisioning**
-   - Confirm the workflow only targeted admin users in the selected AU.
-   - Confirm users outside that AU (for example EndUsers) are not targeted by this workflow scope.
-   - Verify account disable/deprovisioning steps occurred correctly for the test user.
+6. **Verify restricted management of workflow**
+   - Sign in with a user who has the Lifecycle Workflows Administrator role, but is outside the AU set in scope. 
+   - Do the same for a user who has the Lifecycle Workflows Adminsitrator role and is a member of the AU set in scope. 
+   - Verify that only the member of the scoped AU can administer the workflow. 
 
 &nbsp;
 
@@ -226,20 +212,23 @@ In this final section, you enable the SCIM API, configure app-based authenticati
 
 1. **Enable SCIM Provisioning API in Entra Admin Center**
    - Go to **Identity Governance** → **Dashboard**.
-   - Open the **SCIM Provisioning API** tile and complete subscription/resource group linking. This requires an Azure subscription and permissions to link payment to that seubscription and resource group.
+   - Open the **SCIM Provisioning API** tile and complete subscription/resource group linking. This requires an Azure subscription and permissions to link payment to that subscription and resource group.
    - Turn on the feature.
 
 2. **Create app registration for SCIM API access**
    - Create a new app registration (single-tenant).
    - Save:
-     - **Tenant ID**
      - **Application (client) ID**
      - **Directory (tenant) ID**
-   - Add Microsoft Graph *application* permissions needed for your scenario. E.g. User.ReadWrite.All and Group.Read.All
+   - Add Microsoft Graph *application* permissions needed for your scenario. Start with User.ReadWrite.All and Group.Read.All
    - Grant admin consent.
    - Create a client secret and copy it securely.
 
 3. **Create a Postman environment**
+   There are resource files available to get a head start, but you can also do this manually if you want.
+   Environment setup: [Environment](../../resources/resource-5-SCIM-postman-collection/ELUK2026.postman_environment)
+   Download the files and import them into Postman. You will need, tenantID, clientID and client secret as inputs in the environment.
+
    - Create an environment and add variables for:
      - `tenant_id`
      - `client_id`
@@ -249,14 +238,74 @@ In this final section, you enable the SCIM API, configure app-based authenticati
 
 4. **Test token retrieval and SCIM API connectivity**
    There are resource files available to get a head start on request to the SCIM 2.0 API.
-   Environment setup: [Environment](../../resources/resource-5-SCIM-postman-collection/ELUK2026.postman_environment)
    Request Collection: [Collection](../../resources/resource-5-SCIM-postman-collection/ELUK2026.postman_collection.json)
    Download the files and import them into Postman. You will need, tenantID, clientID and client secret as inputs in the environment.
-
+   Remember to set the environment in the collection.
    - First you will have to request a token
-   - Save token to `token` in the environment. Script added in the POST-request if using resource files. 
-   - Create a collection for all your SCIM-requests and reuse token (OAuth 2.0) under Authorization config for the entire collection. All other requests can inherit from parent.
-   - Test SCIM API endpoint.
+   - Save token to `token` in the environment (Script added for this in the GetToken POST-request if using resource files. )
+   - Create/or use our collection for all your SCIM-requests and reuse token (OAuth 2.0) under Authorization config for the entire collection. All other requests can inherit from parent.
+   - Test SCIM API endpoints:
+   API documentation: https://learn.microsoft.com/en-us/entra/identity/app-provisioning/entra-id-scim-api-reference
+
+   1. **ServiceProviderConfig**
+   Endpoint: https://graph.microsoft.com/rp/scim/serviceproviderconfig
+   Method: GET
+   Minimum permissions: User.Read.All and Group.Read.All
+
+   2. **ResourceTypes**
+   Endpoint: https://graph.microsoft.com/rp/scim/resourcetypes
+   Method: GET
+   Minimum permissions: User.Read.All and Group.Read.All
+
+   3. **Schemas**
+   Endpoint: https://graph.microsoft.com/rp/scim/schemas
+   Method: GET
+   Minimum permissions: User.Read.All and Group.Read.All - Optional: CustomSecAttributeDefinition.Read.All to read schema for Custom Security Attributes
+   
+   4. **List Users or Get User**
+   Endpoint: https://graph.microsoft.com/rp/scim/users or byId: https://graph.microsoft.com/rp/scim/users/{id}
+   Method: GET
+   Minimum permissions: User.Read.All
+
+   5. **Create User**
+   Endpoint: https://graph.microsoft.com/rp/scim/users
+   Method: POST
+   Minimum permissions: User.ReadWrite.All
+   Required attributes: userName, password, name.familyName, name.givenName, active, displayName, urn:ietf:params:scim:schemas:extension:Microsoft:Entra:2.0:User:mailNickname
+
+   6. **Update User - single or multiple values at the same time**
+   Endpoint: https://graph.microsoft.com/rp/scim/users/{id}
+   Method: PATCH 
+   Minimum permissions: User.ReadWrite.All
+
+   7. **Delete User**
+   Endpoint: https://graph.microsoft.com/rp/scim/users/{id}
+   Method: DELETE 
+   Minimum permissions: User.ReadWrite.All
+
+   8. **List Groups or Get Group**
+   Endpoint: https://graph.microsoft.com/rp/scim/groups or byId: https://graph.microsoft.com/rp/scim/groups/{id}
+   Method: GET
+   Minimum permissions: Group.Read.All
+
+   9. **Create Group**
+   Endpoint: https://graph.microsoft.com/rp/scim/groups
+   Method: POST
+   Minimum permissions: Group.ReadWrite.All
+   Required attribute: displayName
+
+   10. **Update Group**
+   Endpoint: https://graph.microsoft.com/rp/scim/groups/{id}
+   Method: PATCH
+   Minimum permissions: Group.ReadWrite.All
+
+   11. **Delete Group**
+   Endpoint: https://graph.microsoft.com/rp/scim/groups/{id}
+   Method: DELETE
+   Minimum permissions: Group.ReadWrite.All
+
+   Play around with the endpoints for the API to get to know it better!
+
 
 > 💡 **Note**  
 > You can add additional Postman request examples later (create user, update user, disable user, delete user).
